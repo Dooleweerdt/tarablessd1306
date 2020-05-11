@@ -11,6 +11,8 @@
 #include <string.h>
 #include <driver/i2c.h>
 #include <driver/gpio.h>
+#include "FreeRTOS.h"
+#include <freertos/task.h>
 #include "ssd1306.h"
 #include "ssd1306_default_if.h"
 
@@ -50,10 +52,10 @@ bool SSD1306_I2CMasterInitDefault( void ) {
     Config.sda_pullup_en = GPIO_PULLUP_ENABLE;
     Config.scl_io_num = SCLPin;
     Config.scl_pullup_en = GPIO_PULLUP_ENABLE;
-    Config.master.clk_speed = I2CDisplaySpeed;
+//    Config.master.clk_speed = I2CDisplaySpeed;
 
+    ESP_ERROR_CHECK_NONFATAL( i2c_driver_install( I2CPortNumber, Config.mode ), return false );
     ESP_ERROR_CHECK_NONFATAL( i2c_param_config( I2CPortNumber, &Config ), return false );
-    ESP_ERROR_CHECK_NONFATAL( i2c_driver_install( I2CPortNumber, Config.mode, 0, 0, 0 ), return false );
 
     return true;
 }

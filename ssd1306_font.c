@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <math.h>
 #include "ssd1306.h"
 #include "ssd1306_draw.h"

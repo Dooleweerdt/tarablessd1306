@@ -9,8 +9,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include <driver/spi_master.h>
+#include <driver/spi.h>
 #include <driver/gpio.h>
+#include "FreeRTOS.h"
 #include <freertos/task.h>
 #include "ssd1306.h"
 #include "ssd1306_default_if.h"
