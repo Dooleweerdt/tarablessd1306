@@ -213,6 +213,32 @@ void IRAM_ATTR SSD1306_DrawBox( struct SSD1306_Device* DeviceHandle, int x1, int
     }
 }
 
+void IRAM_ATTR SSD1306_DrawBitmap( struct SSD1306_Device* DeviceHandle, int x, int y, int height, int width, const unsigned char * pchBitmap)
+{
+	int iLine = 0;
+	int iColumn = 0;
+
+    NullCheck( DeviceHandle, return );
+    NullCheck( DeviceHandle->Framebuffer, return );
+
+    // Loop all lines
+    for (iLine=0; iLine<height; iLine++)
+    {
+    	// Loop all pixels / per line
+    	for (iColumn=0; iColumn<width; iColumn++)
+    	{
+    		// Decide to draw pixel or not...
+    		// - Go through each byte in bitmap - each bit equals a pixel
+    		// - Pixel width must be divideable by 8 (e.g. 8x8, 16x16, 24x24, 32x32 etc.)
+    		if ((pchBitmap[(iLine * width/8) + (iColumn/8)] & (0b10000000 >> (iColumn%8))) > 0)
+    		{
+    			// Draw pixel
+    			SSD1306_DrawPixel(DeviceHandle, (x + iColumn), (y + iLine), SSD_COLOR_WHITE);
+    		}
+    	}
+    }
+}
+
 void SSD1306_Clear( struct SSD1306_Device* DeviceHandle, int Color ) {
     NullCheck( DeviceHandle, return );
     NullCheck( DeviceHandle->Framebuffer, return );
